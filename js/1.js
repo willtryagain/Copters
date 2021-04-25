@@ -6,6 +6,7 @@ var Colors = {
 	pink:0xF5986E,
 	brownDark:0x23190f,
 	blue:0x68c3c0,
+  gold:0xffd700
 };
 
 var Controls = {
@@ -18,7 +19,7 @@ function init() {
     createScene();
     createLights();
     createPlane();
-    // createSky();
+    createStars();
     document.addEventListener('keypress', takeInput, false);
     
     gameloop();
@@ -47,7 +48,7 @@ function createScene() {
         alpha: true,
         antialias: true
     });
-
+    renderer.setPixelRatio(window.devicePixelRatio); 
     renderer.setSize(WIDTH, HEIGHT);
     renderer.shadowMap.enabled = true;
 
@@ -139,6 +140,13 @@ function takeInput(event) {
   console.log(event.key);
   if (event.key == "a") 
     plane.mesh.position.x -= Controls.xSpeed;
+  if (event.key == "d") 
+    plane.mesh.position.x += Controls.xSpeed;
+  if (event.key == "w") 
+    plane.mesh.position.y += Controls.xSpeed;
+  if (event.key == "s") 
+    plane.mesh.position.y -= Controls.xSpeed;
+  
     // if (e.keyCode == 38) 
     //   scene.children[1].position.y += 0.2;
     // if (e.keyCode == 39) 
@@ -148,6 +156,35 @@ function takeInput(event) {
     // plane.mesh.position.x -=
 }
 
+Star = function() {
+  this.mesh = new THREE.Object3D();
+  this.mesh.name = "cloud";
+  var geom = new THREE.BoxGeometry(20,20,20, 1, 1, 1);
+  var mat = new THREE.MeshPhongMaterial({
+    color:Colors.gold,
+  });
+  var m = new THREE.Mesh(geom.clone(), mat);
+  m.position.set(0, 0, 0);
+  this.mesh.add(m);
+}
+
+Field = function() {
+  this.mesh = new THREE.Object3D();
+  this.n = 2;
+  this.stars = [];
+  for(var i=0; i<this.n; i++){
+    var s = new Star();
+    this.stars.push(s);
+    this.mesh.add(s.mesh);
+  }
+}
+
+var starField;
+function createStars() {
+  starField = new Field();
+  starField.mesh.position.y = 10;
+  scene.add(starField.mesh);
+}
 
 function gameloop() {
   plane.propeller.rotation.x += 0.3;
