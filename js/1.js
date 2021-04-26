@@ -43,9 +43,6 @@ function createScene() {
     container.appendChild(renderer.domElement);
 }
 
-
-
-
 var plane;
 function createPlane() {
   plane = new Plane();
@@ -68,14 +65,38 @@ function takeInput(event) {
 
 var starField;
 function createStars() {
-  starField = new Field();
-  starField.mesh.position.y = 10;
+  starField = new Field(2);
   scene.add(starField.mesh);
 }
 
+function increaseScore() {
+  Controls.score += 10;
+}
+
+function increaseDistance() {
+  distance += gameSpeed * deltaTime * 50;
+}
+
+
 function gameloop() {
+  current = new Date().getTime();
+  deltaTime = current - previous;
+  previous = current;
+
+  if (Controls.paused == false) {
+    if (distance > 0 && Math.floor(distance) % 100 == 0)
+      starField.spawnStars();
+
+    updatePlane();
+  }
+
   plane.propeller.rotation.x += 0.3;
-  starField.mesh.position.x -= .1;
   renderer.render(scene, camera);
+
+
+
+
+
+
   requestAnimationFrame(gameloop);
 }

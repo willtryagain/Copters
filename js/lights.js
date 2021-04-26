@@ -1,8 +1,12 @@
-var hemiLight, shadowLight;
+var ambientLight, hemiLight, shadowLight;
 
 
 function createLights() {
     hemiLight = new THREE.HemisphereLight(0xaaaaaa,0x000000, .9);
+    
+    ambientLight = new THREE.AmbientLight(0xdc8874, .5);
+
+    
     shadowLight = new THREE.DirectionalLight(0xffffff, .9);
     shadowLight.position.set(150, 350, 350);
     shadowLight.castShadow = true;
@@ -17,6 +21,7 @@ function createLights() {
     shadowLight.shadow.mapSize.width = 2048;
 	shadowLight.shadow.mapSize.height = 2048;
 
+    scene.add(ambientLight);
     scene.add(hemiLight);
     scene.add(shadowLight);
 }

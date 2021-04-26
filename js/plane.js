@@ -49,3 +49,12 @@ var Plane = function() {
     this.mesh.add(this.propeller);
   }
   
+
+function updatePlane() {
+  var curX = plane.mesh.position.x;
+  var curY = plane.mesh.position.y;
+  var deltaX  = Math.abs(curX - planeX);
+  var deltaY  = Math.abs(curY - planeY);
+  planeSpeed = Math.sqrt(deltaX*deltaX + deltaY*deltaY);
+  gameSpeed = planeSpeed * 100;
+} 

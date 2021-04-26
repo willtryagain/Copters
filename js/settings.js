@@ -9,5 +9,21 @@ var Colors = {
 };
 
 var Controls = {
-  xSpeed: 5
+  xSpeed: 5,
+  radius: 600,
+  defaultHeight: 100,
+  bottomHeight: 80,
+  starSpeed: 0.5,
+  collisionDistance: 15,
+  score: 0,
+  paused: false,
 }
+
+var current = 0;
+var previous = new Date().getTime();
+var deltaTime = 0;
+var distance = 0;
+var planeX = 0;
+var planeY = 0;
+var planeSpeed = 0;
+var gameSpeed = 0;
