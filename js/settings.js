@@ -16,15 +16,16 @@ var Controls = {
   defaultHeight: 100,
   bottomHeight: 80,
   starSpeed: 0.5,
-  collisionDistance: 15,
+  collisionDistance: 10,
   score: 0,
   paused: false,
   lives: 5,
-  bulletSize:2
+  bulletSize:5
 }
 
 var current = 0;
 var previous = new Date().getTime();
+var starTime = new Date().getTime();
 var deltaTime = 0;
 var distance = 0;
 var planeX = 0;
@@ -42,4 +43,4 @@ var health_field;
 var score_field;
 var mode = "";
 var fallSpeed = 0.001;
-
+var prevIndex = -1;

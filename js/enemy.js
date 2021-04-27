@@ -26,40 +26,54 @@ EnemyFleet.prototype.spawnEnemies = function() {
         enemy.mesh.position.y =  HEIGHT/4 + sign * HEIGHT * Math.cos(Math.random())/8;
         enemy.mesh.position.y = plane.mesh.position.y;
         sign = Math.random() < 0.5 ? -1 : 1;
-        enemy.mesh.position.x =  sign * Math.sin(Math.random())*WIDTH/2 ;
+        enemy.mesh.position.x =  100;20 +  Math.sin(Math.random())*WIDTH/4 ;
+
         this.mesh.add(enemy.mesh);
         this.activeList.push(enemy);
     }
 }
 
-EnemyFleet.prototype.motion = function(speed=-2) {
+
+EnemyFleet.prototype.motion = function(speed=-getSpeed()) {
     var deleted = [];
     for (let index = 0; index < this.activeList.length; index++) {
         var enemy = this.activeList[index];
         enemy.angle += gameSpeed * deltaTime * 0.06*Math.cos(Math.random());
         if (enemy.angle > Math.PI*2) 
             enemy.angle -= Math.PI*2;
-        enemy.mesh.translateX(speed);
+        
         var dvec = plane.mesh.position.clone().sub(enemy.mesh.position.clone());
+        enemy.mesh.translateX(speed);
         var distance = dvec.length();
         
+        var obj = this.mesh.getObjectByProperty()
+
+
         if (distance < Controls.collisionDistance) {
             deleted.push(index);
+            // this.activeList[index].deleted = true;
             this.mesh.remove(enemy.mesh);
-            console.log("enemy d", distance);
+            if (index != prevIndex) {
+                decreaseLives();
+                prevIndex = index;
+            }
+           
+
             // ambientLight.intensity = 2;
-            decreaseLives();
+            
+            break;
             // test i--;
         } else {
             for (let index = 0; index < plasmaBalls.length; index++) {
                 const ball = plasmaBalls[index];
                 dvec = ball.position.clone().sub(enemy.mesh.position.clone());
                 distance = dvec.length();
-                if (distance < 10 && !enemy.deleted) {
+                if (distance < 10) {
                     increaseScore(false);
                     enemy.deleted = true;
                     deleted.push(index);
                     this.mesh.remove(enemy.mesh);
+                    // this.activeList[index].deleted = true;
                     // ambientLight.intensity = 2;
                     // decreaseLives();
                     // test i--;
@@ -72,6 +86,8 @@ EnemyFleet.prototype.motion = function(speed=-2) {
         //     this.mesh.remove(enemy.mesh);
     }
     for (let index = deleted.length-1; index >= 0; index--) {
+        var enemy = this.activeList[index];
+        this.mesh.remove(enemy);
         this.activeList.splice(deleted[index], 1);
     }
 }

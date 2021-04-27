@@ -180,6 +180,10 @@ function decreaseLives() {
 
 }
 
+function getSpeed() {
+  return Math.log( Math.max(new Date().getTime() - starTime)/1000, 2);
+}
+
 function increaseDistance() {
   distance += gameSpeed * deltaTime/1000;
 }
