@@ -17,6 +17,64 @@ function init() {
     gameloop();
 }
 
+var keyMap = [];
+
+window.addEventListener('keydown', (e)=>{
+    if(!keyMap.includes(e.keyCode)){
+        keyMap.push(e.keyCode);
+    }
+})
+
+window.addEventListener('keyup', (e)=>{
+    if(keyMap.includes(e.keyCode)){
+        keyMap.splice(keyMap.indexOf(e.keyCode), 1);
+    }
+})
+
+function key(x){
+    return (keyMap.includes(x));
+}
+
+function checkGameKeys(){
+  keys = []
+    if(key(32)){
+        // Space Key
+        keys.push("space");
+    }
+    if(key(37)){
+        // Left Arrow Key
+    }
+    if(key(39)){
+        // Right Arrow Key
+    }
+    if(key(38)){
+        // Up Arrow Key
+    }
+    if(key(40)){
+        // Down Arrow Key
+    }
+    if(key(65)){
+        // A Key
+        keys.push("a");
+    }
+    if(key(68)){
+        // D Key
+        keys.push("d");
+    }
+    if(key(87)){
+        // W Key
+
+        keys.push("w");
+    }
+    if(key(83)){
+        // S Key
+        keys.push("s");
+    }
+    return keys;
+}
+
+
+
 var scene, camera, fieldOfView, aspectRatio, nearPlane, farPlane, HEIGHT, WIDTH, renderer, container;
 
 function createScene() {
@@ -65,29 +123,27 @@ function createPlane() {
 }
 
 function takeInput(event) {
-  console.log(event.key);
-
-  keys = []
-
-
-  if (event.key == "a") {
+  if (Controls.paused)
+    return;
+  keys = checkGameKeys();
+  if (keys.includes("a")) {
     starField.motion(Controls.xSpeed);
     curPlaneX-= Controls.xSpeed;
     enemyFleet.motion(Controls.xSpeed);
-    
+
   }
     // plane.mesh.position.x -= Controls.xSpeed;
-  if (event.key == "d") {
+  if (keys.includes("d")) {
     starField.motion(-Controls.xSpeed);
-    curPlaneX= Controls.xSpeed;
+    curPlaneX += Controls.xSpeed;
     enemyFleet.motion(-Controls.xSpeed);
   } 
    
-  if (event.key == "w") 
+  if (keys.includes("w")) 
     plane.mesh.position.y += Controls.xSpeed;
-  if (event.key == "s") 
+  if (keys.includes("s")) 
     plane.mesh.position.y -= Controls.xSpeed;
-  if (event.key == "f") {
+  if (keys.includes("space")) {
     let plasmaBall = new THREE.Mesh(new THREE.SphereGeometry(Controls.bulletSize, Controls.bulletSize, Controls.bulletSize), new THREE.MeshBasicMaterial({
       color: 0xFFA500
     }));
@@ -116,6 +172,12 @@ function increaseScore(star=true) {
 function decreaseLives() {
   Controls.lives -= 1;
   health_field.innerHTML = Controls.lives;
+  if (Controls.lives == 0) {
+    Controls.paused = true;
+    while (plane.mesh.position.y > 0)
+    plane.mesh.position.y -= 1;
+
+  }
 
 }
 
@@ -139,12 +201,12 @@ function gameloop() {
   previous = current;
 
   if (Controls.paused == false) {
-    if (Math.floor(distance) % 89 == 0 && distance != prevDistance)  {
+    if (Math.floor(distance) % 20 == 0 && distance != prevDistance)  {
       // console.log("spawn");
       starField.spawnStars();
       prevDistance = distance;
     }
-    if (Math.floor(distance) % 97 == 0 && distance != prevEnemyDistance)  {
+    if (Math.floor(distance) % 30 == 0 && distance != prevEnemyDistance)  {
       // console.log("spawn e");
       enemyFleet.spawnEnemies();
       prevEnemyDistance = distance;
@@ -158,9 +220,10 @@ function gameloop() {
     updatePlane();
     
   }
-
+  if (!Controls.paused)
+    enemyFleet.motion();
   starField.motion();
-  enemyFleet.motion();
+  
 
   plane.propeller.rotation.y += 0.3;
   renderer.render(scene, camera);

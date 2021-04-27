@@ -24,6 +24,7 @@ EnemyFleet.prototype.spawnEnemies = function() {
         enemy.angle = -(index*0.1);
         var sign = Math.random() < 0.5 ? -1 : 1;
         enemy.mesh.position.y =  HEIGHT/4 + sign * HEIGHT * Math.cos(Math.random())/8;
+        enemy.mesh.position.y = plane.mesh.position.y;
         sign = Math.random() < 0.5 ? -1 : 1;
         enemy.mesh.position.x =  sign * Math.sin(Math.random())*WIDTH/2 ;
         this.mesh.add(enemy.mesh);
@@ -31,7 +32,7 @@ EnemyFleet.prototype.spawnEnemies = function() {
     }
 }
 
-EnemyFleet.prototype.motion = function(speed=0) {
+EnemyFleet.prototype.motion = function(speed=-2) {
     var deleted = [];
     for (let index = 0; index < this.activeList.length; index++) {
         var enemy = this.activeList[index];
