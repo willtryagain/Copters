@@ -7,6 +7,7 @@ function init() {
     createLights();
     createPlane();
     createStars();
+    createEnemies();
     document.addEventListener('keypress', takeInput, false);
     
     gameloop();
@@ -39,6 +40,12 @@ function createScene() {
     renderer.setSize(WIDTH, HEIGHT);
     renderer.shadowMap.enabled = true;
 
+  
+
+
+
+
+
     container = document.getElementById('world');
     container.appendChild(renderer.domElement);
 }
@@ -61,6 +68,16 @@ function takeInput(event) {
     plane.mesh.position.y += Controls.xSpeed;
   if (event.key == "s") 
     plane.mesh.position.y -= Controls.xSpeed;
+  if (event.key == "f") {
+    let plasmaBall = new THREE.Mesh(new THREE.SphereGeometry(0.2, 0.2, 0.2), new THREE.MeshBasicMaterial({
+      color: Colors.red
+    }));
+    plasmaBall.position.copy(plane.mesh.position); // start position - the tip of the weapon
+    plasmaBall.quaternion.copy(camera.quaternion); // apply camera's quaternion
+    scene.add(plasmaBall);
+							plasmaBalls.push(plasmaBall);
+  }
+
 }
 
 var starField;
@@ -73,10 +90,23 @@ function increaseScore() {
   Controls.score += 10;
 }
 
+function decreaseLives() {
+  Colors.lives -= 1;
+}
+
 function increaseDistance() {
   distance += gameSpeed * deltaTime;
   console.log("gameSpeed", gameSpeed);
   console.log("distance", distance);
+}
+
+function createEnemies() {
+  for (let index = 0; index < 2; index++) {
+    var enemy = new Enemy();
+    enemies.push(enemy);
+  }
+  enemyFleet = new EnemyFleet();
+  scene.add(enemyFleet.mesh);
 }
 
 
@@ -91,12 +121,23 @@ function gameloop() {
       starField.spawnStars();
       prevDistance = distance;
     }
+    if (Math.floor(distance) % 150 == 0 && distance != prevEnemyDistance)  {
+      console.log("spawn");
+      enemyFleet.spawnEnemies();
+      prevEnemyDistance = distance;
+    }
+    plasmaBalls.forEach(b => {
+      b.translateX(50 * 1); // move along the local z-axis
+      // b.translateZ(-10);
+    });
+    
     increaseDistance();
     updatePlane();
     
   }
 
   starField.motion();
+  enemyFleet.motion();
 
   plane.propeller.rotation.x += 0.3;
   renderer.render(scene, camera);

@@ -17,6 +17,7 @@ var Controls = {
   collisionDistance: 15,
   score: 0,
   paused: false,
+  lives: 5
 }
 
 var current = 0;
@@ -28,3 +29,6 @@ var planeY = 0;
 var planeSpeed = 0;
 var gameSpeed = 0;
 var prevDistance = 0;
+var enemies = [];
+var prevEnemyDistance=  0;
+var plasmaBalls = [];
