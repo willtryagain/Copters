@@ -66,10 +66,18 @@ function createPlane() {
 
 function takeInput(event) {
   console.log(event.key);
-  if (event.key == "a") 
-    plane.mesh.position.x -= Controls.xSpeed;
-  if (event.key == "d") 
-    plane.mesh.position.x += Controls.xSpeed;
+  if (event.key == "a") {
+    starField.motion(Controls.xSpeed);
+    curPlaneX-= Controls.xSpeed;
+    enemyFleet.motion(Controls.xSpeed);
+  }
+    // plane.mesh.position.x -= Controls.xSpeed;
+  if (event.key == "d") {
+    starField.motion(-Controls.xSpeed);
+    curPlaneX= Controls.xSpeed;
+    enemyFleet.motion(-Controls.xSpeed);
+  } 
+   
   if (event.key == "w") 
     plane.mesh.position.y += Controls.xSpeed;
   if (event.key == "s") 
@@ -126,12 +134,12 @@ function gameloop() {
   previous = current;
 
   if (Controls.paused == false) {
-    if (Math.floor(distance) % 100 == 0 && distance != prevDistance)  {
+    if (Math.floor(distance) % 89 == 0 && distance != prevDistance)  {
       // console.log("spawn");
       starField.spawnStars();
       prevDistance = distance;
     }
-    if (Math.floor(distance) % 150 == 0 && distance != prevEnemyDistance)  {
+    if (Math.floor(distance) % 97 == 0 && distance != prevEnemyDistance)  {
       // console.log("spawn e");
       enemyFleet.spawnEnemies();
       prevEnemyDistance = distance;

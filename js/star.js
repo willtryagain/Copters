@@ -44,7 +44,7 @@ Field.prototype.spawnStars = function() {
     }
 }
 
-Field.prototype.motion = function() {
+Field.prototype.motion = function(speed=0) {
   var deleted = [];
   for (let index = 0; index < this.starsActivated.length; index++) {
       var star = this.starsActivated[index];
@@ -53,7 +53,7 @@ Field.prototype.motion = function() {
         star.angle -= Math.PI/2;
       // star.mesh.position.y = - Math.cos(Math.random())*HEIGHT/2;
       // star.mesh.position.x = Math.sin(Math.random())*WIDTH/2;
-      star.mesh.translateX(-gameSpeed/10);
+      star.mesh.translateX(speed);
      
       // star.mesh.rotation.z += Math.random() * .1;
       // star.mesh.rotation.y += Math.random() * .1;

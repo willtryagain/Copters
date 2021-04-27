@@ -53,13 +53,15 @@ var Plane = function() {
   
 
 function updatePlane() {
-  var curX = plane.mesh.position.x;
-  var curY = plane.mesh.position.y;
-  var deltaX  = Math.abs(curX - planeX);
-  var deltaY  = Math.abs(curY - planeY);
+
+  var deltaX  = Math.abs(curPlaneX - planeX);
+  var deltaY  = Math.abs(curPlaneY - planeY);
   planeSpeed = Math.sqrt(deltaX*deltaX + deltaY*deltaY);
-  planeX = curX;
-  planeY = curY;
+  // plane.mesh.position.x = planeX;
+  // plane.mesh.position.y = planeY;
+
+  planeX = curPlaneX;
+  planeY = curPlaneY;
   gameSpeed = planeSpeed * 10;
   console.log("speed", planeSpeed);
 } 

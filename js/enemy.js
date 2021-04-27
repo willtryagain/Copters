@@ -31,14 +31,14 @@ EnemyFleet.prototype.spawnEnemies = function() {
     }
 }
 
-EnemyFleet.prototype.motion = function() {
+EnemyFleet.prototype.motion = function(speed=0) {
     var deleted = [];
     for (let index = 0; index < this.activeList.length; index++) {
         var enemy = this.activeList[index];
         enemy.angle += gameSpeed * deltaTime * 0.06*Math.cos(Math.random());
         if (enemy.angle > Math.PI*2) 
             enemy.angle -= Math.PI*2;
-            enemy.mesh.translateX(-gameSpeed/10);
+        enemy.mesh.translateX(speed);
         var dvec = plane.mesh.position.clone().sub(enemy.mesh.position.clone());
         var distance = dvec.length();
         

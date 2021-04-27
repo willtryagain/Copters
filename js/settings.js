@@ -11,7 +11,7 @@ var Colors = {
 };
 
 var Controls = {
-  xSpeed: 5,
+  xSpeed: 3,
   radius: 600,
   defaultHeight: 100,
   bottomHeight: 80,
@@ -29,6 +29,8 @@ var deltaTime = 0;
 var distance = 0;
 var planeX = 0;
 var planeY = 0;
+var curPlaneX = 0;
+var curPlaneY = 0;
 var planeSpeed = 0;
 var gameSpeed = 0;
 var prevDistance = 0;
