@@ -1,7 +1,7 @@
 Enemy = function() {
     var geometry = new THREE.TetrahedronGeometry(8, 2);
     var material = new THREE.MeshPhongMaterial({
-        color: Colors.red,
+        color: 0x888c8d,
         shading: THREE.FlatShading
     });
     this.mesh = new THREE.Mesh(geometry, material);

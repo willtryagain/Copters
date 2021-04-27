@@ -40,4 +40,6 @@ var plasmaBalls = [];
 
 var health_field;
 var score_field;
+var mode = "";
+var fallSpeed = 0.001;
 

@@ -174,8 +174,7 @@ function decreaseLives() {
   health_field.innerHTML = Controls.lives;
   if (Controls.lives == 0) {
     Controls.paused = true;
-    while (plane.mesh.position.y > 0)
-    plane.mesh.position.y -= 1;
+    status = "over";
 
   }
 
@@ -219,6 +218,16 @@ function gameloop() {
     increaseDistance();
     updatePlane();
     
+  }
+  else if (status == "over") {
+    plane.mesh.rotation.z += (-Math.PI/2 - plane.mesh.rotation.z) * 2 * deltaTime / 1000;
+    plane.mesh.rotation.x += 3 * deltaTime/1000;
+    fallSpeed *= 1.05;
+    plane.mesh.position.y -=  fallSpeed * deltaTime;
+    if (plane.mesh.position < 0)  {
+      status_field =  document.getElementById("status");
+      status_field.innerHTML = "Game Over!"
+    }
   }
   if (!Controls.paused)
     enemyFleet.motion();
