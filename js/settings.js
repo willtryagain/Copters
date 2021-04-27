@@ -27,3 +27,4 @@ var planeX = 0;
 var planeY = 0;
 var planeSpeed = 0;
 var gameSpeed = 0;
+var prevDistance = 0;

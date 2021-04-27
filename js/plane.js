@@ -56,5 +56,8 @@ function updatePlane() {
   var deltaX  = Math.abs(curX - planeX);
   var deltaY  = Math.abs(curY - planeY);
   planeSpeed = Math.sqrt(deltaX*deltaX + deltaY*deltaY);
-  gameSpeed = planeSpeed * 100;
+  planeX = curX;
+  planeY = curY;
+  gameSpeed = planeSpeed * 10;
+  console.log("speed", planeSpeed);
 } 

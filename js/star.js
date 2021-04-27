@@ -41,19 +41,19 @@ Field.prototype.spawnStars = function() {
       star.mesh.position.y =  Math.cos(Math.random())*HEIGHT/2 * sign;
       sign = Math.random() < 0.5 ? -1 : 1;
       star.mesh.position.x = Math.sin(Math.random())*WIDTH/2 *  sign;
-      console.log(star.mesh.position.x, star.mesh.position.y)
+      // console.log(star.mesh.position.x, star.mesh.position.y)
 
     }
 }
 
 Field.prototype.motion = function() {
   for (let index = 0; index < this.starsActivated.length; index++) {
-      var star = starsActivated[index];
+      var star = this.starsActivated[index];
       star.angle += Controls.speed * deltaTime * Controls.starSpeed;
       if (2*star.angle > Math.PI) 
         star.angle -= Math.PI/2;
-      star.mesh.position.y = -Controls.radius + Math.sin(star.angle) * star.distance;
-      star.mesh.position.x = Math.cos(star.angle) * star.distance;
+      // star.mesh.position.y = - Math.cos(Math.random())*HEIGHT/2;
+      // star.mesh.position.x = Math.sin(Math.random())*WIDTH/2;
       star.mesh.rotation.z += Math.random() * .1;
       star.mesh.rotation.y += Math.random() * .1;
 

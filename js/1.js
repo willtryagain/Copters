@@ -74,7 +74,9 @@ function increaseScore() {
 }
 
 function increaseDistance() {
-  distance += gameSpeed * deltaTime * 50;
+  distance += gameSpeed * deltaTime;
+  console.log("gameSpeed", gameSpeed);
+  console.log("distance", distance);
 }
 
 
@@ -84,11 +86,17 @@ function gameloop() {
   previous = current;
 
   if (Controls.paused == false) {
-    if (distance > 0 && Math.floor(distance) % 100 == 0)
+    if (Math.floor(distance) % 100 == 0 && distance != prevDistance)  {
+      console.log("spawn");
       starField.spawnStars();
-
+      prevDistance = distance;
+    }
+    increaseDistance();
     updatePlane();
+    
   }
+
+  starField.motion();
 
   plane.propeller.rotation.x += 0.3;
   renderer.render(scene, camera);
