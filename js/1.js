@@ -3,11 +3,15 @@
 window.addEventListener('load', init, false);
 
 function init() {
+
+    health_field = document.getElementById("health_val");
+    score_field = document.getElementById("score_val");
     createScene();
     createLights();
     createPlane();
     createStars();
     createEnemies();
+    
     document.addEventListener('keypress', takeInput, false);
     
     gameloop();
@@ -55,6 +59,8 @@ function createPlane() {
   plane = new Plane();
   plane.mesh.scale.set(0.25, 0.25, 0.25);
   plane.mesh.position.y = 100;
+  plane.mesh.position.set(0, HEIGHT/4, 0);
+
   scene.add(plane.mesh);
 }
 
@@ -69,8 +75,8 @@ function takeInput(event) {
   if (event.key == "s") 
     plane.mesh.position.y -= Controls.xSpeed;
   if (event.key == "f") {
-    let plasmaBall = new THREE.Mesh(new THREE.SphereGeometry(10, 10, 10), new THREE.MeshBasicMaterial({
-      color: Colors.red
+    let plasmaBall = new THREE.Mesh(new THREE.SphereGeometry(Controls.bulletSize, Controls.bulletSize, Controls.bulletSize), new THREE.MeshBasicMaterial({
+      color: 0xFFA500
     }));
     plasmaBall.position.copy(plane.mesh.position); // start position - the tip of the weapon
     plasmaBall.quaternion.copy(camera.quaternion); // apply camera's quaternion
@@ -91,16 +97,17 @@ function increaseScore(star=true) {
     Controls.score += 10;
   else
     Controls.score += 50;
+  score_field.innerHTML = Controls.score;
 }
 
 function decreaseLives() {
-  Colors.lives -= 1;
+  Controls.lives -= 1;
+  health_field.innerHTML = Controls.lives;
+
 }
 
 function increaseDistance() {
-  distance += gameSpeed * deltaTime;
-  console.log("gameSpeed", gameSpeed);
-  console.log("distance", distance);
+  distance += gameSpeed * deltaTime/1000;
 }
 
 function createEnemies() {
@@ -120,12 +127,12 @@ function gameloop() {
 
   if (Controls.paused == false) {
     if (Math.floor(distance) % 100 == 0 && distance != prevDistance)  {
-      console.log("spawn");
+      // console.log("spawn");
       starField.spawnStars();
       prevDistance = distance;
     }
     if (Math.floor(distance) % 150 == 0 && distance != prevEnemyDistance)  {
-      console.log("spawn");
+      // console.log("spawn e");
       enemyFleet.spawnEnemies();
       prevEnemyDistance = distance;
     }
@@ -142,7 +149,7 @@ function gameloop() {
   starField.motion();
   enemyFleet.motion();
 
-  plane.propeller.rotation.x += 0.3;
+  plane.propeller.rotation.y += 0.3;
   renderer.render(scene, camera);
 
 

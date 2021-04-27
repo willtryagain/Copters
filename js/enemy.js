@@ -22,52 +22,55 @@ EnemyFleet.prototype.spawnEnemies = function() {
         else
             var enemy = new Enemy();
         enemy.angle = -(index*0.1);
-        enemy.mesh.position.y = Math.cos(Math.random())*HEIGHT/2;
-        enemy.mesh.position.x =  Math.sin(Math.random())*WIDTH/2 ;
+        var sign = Math.random() < 0.5 ? -1 : 1;
+        enemy.mesh.position.y =  HEIGHT/4 + sign * HEIGHT * Math.cos(Math.random())/8;
+        sign = Math.random() < 0.5 ? -1 : 1;
+        enemy.mesh.position.x =  sign * Math.sin(Math.random())*WIDTH/2 ;
         this.mesh.add(enemy.mesh);
         this.activeList.push(enemy);
     }
 }
 
 EnemyFleet.prototype.motion = function() {
+    var deleted = [];
     for (let index = 0; index < this.activeList.length; index++) {
         var enemy = this.activeList[index];
         enemy.angle += gameSpeed * deltaTime * 0.06*Math.cos(Math.random());
         if (enemy.angle > Math.PI*2) 
             enemy.angle -= Math.PI*2;
-        enemy.mesh.rotation.z += Math.random() * .1;
-        enemy.mesh.rotation.y += Math.random() * .1;
+            enemy.mesh.translateX(-gameSpeed/10);
         var dvec = plane.mesh.position.clone().sub(enemy.mesh.position.clone());
         var distance = dvec.length();
         
         if (distance < Controls.collisionDistance) {
+            deleted.push(index);
             this.mesh.remove(enemy.mesh);
             console.log("enemy d", distance);
             // ambientLight.intensity = 2;
             decreaseLives();
             // test i--;
-        } 
-
-
-        for (let index = 0; index < plasmaBalls.length; index++) {
-            const ball = plasmaBalls[index];
-            dvec = ball.position.clone().sub(enemy.mesh.position.clone());
-            distance = dvec.length();
-            if (distance < 10) {
-                this.mesh.remove(enemy.mesh);
-                console.log("hit d", distance);
-                // ambientLight.intensity = 2;
-                // decreaseLives();
-                // test i--;
-                break;
-            } 
-            
+        } else {
+            for (let index = 0; index < plasmaBalls.length; index++) {
+                const ball = plasmaBalls[index];
+                dvec = ball.position.clone().sub(enemy.mesh.position.clone());
+                distance = dvec.length();
+                if (distance < 10 && !enemy.deleted) {
+                    increaseScore(false);
+                    enemy.deleted = true;
+                    deleted.push(index);
+                    this.mesh.remove(enemy.mesh);
+                    // ambientLight.intensity = 2;
+                    // decreaseLives();
+                    // test i--;
+                    break;
+                } 
+                
+            }
         }
-
-
-
-
         // else if (enemy.angle > Math.PI)
         //     this.mesh.remove(enemy.mesh);
+    }
+    for (let index = deleted.length-1; index >= 0; index--) {
+        this.activeList.splice(deleted[index], 1);
     }
 }

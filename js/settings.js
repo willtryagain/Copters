@@ -5,7 +5,9 @@ var Colors = {
 	pink:0xF5986E,
 	brownDark:0x23190f,
 	blue:0x68c3c0,
-  gold:0xffd700
+  gold:0xffd700,
+  cockpit:0x484848,
+  metal:0x181818
 };
 
 var Controls = {
@@ -17,7 +19,8 @@ var Controls = {
   collisionDistance: 15,
   score: 0,
   paused: false,
-  lives: 5
+  lives: 5,
+  bulletSize:2
 }
 
 var current = 0;
@@ -32,3 +35,7 @@ var prevDistance = 0;
 var enemies = [];
 var prevEnemyDistance=  0;
 var plasmaBalls = [];
+
+var health_field;
+var score_field;
+
