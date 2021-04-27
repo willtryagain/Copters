@@ -47,6 +47,26 @@ EnemyFleet.prototype.motion = function() {
             decreaseLives();
             // test i--;
         } 
+
+
+        for (let index = 0; index < plasmaBalls.length; index++) {
+            const ball = plasmaBalls[index];
+            dvec = ball.position.clone().sub(enemy.mesh.position.clone());
+            distance = dvec.length();
+            if (distance < 10) {
+                this.mesh.remove(enemy.mesh);
+                console.log("hit d", distance);
+                // ambientLight.intensity = 2;
+                // decreaseLives();
+                // test i--;
+                break;
+            } 
+            
+        }
+
+
+
+
         // else if (enemy.angle > Math.PI)
         //     this.mesh.remove(enemy.mesh);
     }

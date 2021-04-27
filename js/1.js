@@ -86,8 +86,11 @@ function createStars() {
   scene.add(starField.mesh);
 }
 
-function increaseScore() {
-  Controls.score += 10;
+function increaseScore(star=true) {
+  if (star)
+    Controls.score += 10;
+  else
+    Controls.score += 50;
 }
 
 function decreaseLives() {

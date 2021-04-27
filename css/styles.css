@@ -6,3 +6,27 @@
 	background: -webkit-linear-gradient(#e4e0ba, #f7d9aa);
 	background: linear-gradient(#e4e0ba, #f7d9aa);
 }
+
+body {
+	overflow: hidden; /* Hide scrollbars */
+	margin: 0;
+}
+
+.panel {
+	width: 100%;
+	text-align: center;
+	width: 100%;
+}
+
+.hud  {
+	align-content: center;
+	display: inline; 
+}
+
+.label {
+	display: inline; 
+}
+
+.value {
+	display: inline; 
+}
