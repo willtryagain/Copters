@@ -144,6 +144,11 @@ function takeInput(event) {
   if (keys.includes("s")) 
     plane.mesh.position.y -= Controls.xSpeed;
   if (keys.includes("space")) {
+    var curTime =  new Date().getTime();
+    if (curTime - prevShotTime < 500)
+      return;
+      prevShotTime=  curTime;
+      
     let plasmaBall = new THREE.Mesh(new THREE.SphereGeometry(Controls.bulletSize, Controls.bulletSize, Controls.bulletSize), new THREE.MeshBasicMaterial({
       color: 0xFFA500
     }));

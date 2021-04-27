@@ -20,7 +20,7 @@ var Controls = {
   score: 0,
   paused: false,
   lives: 5,
-  bulletSize:5
+  bulletSize:2
 }
 
 var current = 0;
@@ -44,3 +44,4 @@ var score_field;
 var mode = "";
 var fallSpeed = 0.001;
 var prevIndex = -1;
+var prevShotTime =  new Date().getTime();
