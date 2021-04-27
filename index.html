@@ -15,18 +15,23 @@
 		<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
 	</head>
 	<body>
-		<div class="panel">
-			<div class="name">
-				<h1>Copters</h1>
+		<div class="viewport">
+			<div class="panel">
+				<h1>COPTERS</h1>
+				<div class="hud">
+					<div class="item">
+						<div class="label" >Health</div>
+						<div class="value" id="health_val">0</div>
+					</div>
+					<div class="item">
+						<div class="label">Score</div>
+						<div class="value"id="score_val">0</div>
+					</div>
+				</div>
 			</div>
-			<div class="hud">
-				<div class="label" >Health</div>
-				<div class="value" id="health_val">0</div>
-				<div class="label">Score</div>
-				<div class="value"id="score_val">0</div>
-			</div>
+			<div class="world" id="world"></div>
 		</div>
-		<div class="world" id="world"></div>
+		
 
 	</body>
 </html>

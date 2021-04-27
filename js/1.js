@@ -66,10 +66,15 @@ function createPlane() {
 
 function takeInput(event) {
   console.log(event.key);
+
+  keys = []
+
+
   if (event.key == "a") {
     starField.motion(Controls.xSpeed);
     curPlaneX-= Controls.xSpeed;
     enemyFleet.motion(Controls.xSpeed);
+    
   }
     // plane.mesh.position.x -= Controls.xSpeed;
   if (event.key == "d") {

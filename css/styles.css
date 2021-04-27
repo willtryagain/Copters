@@ -1,4 +1,4 @@
-.world {
+.viewport {
 	position: absolute;
 	width: 100%;
 	height: 100%;
@@ -7,25 +7,72 @@
 	background: linear-gradient(#cffff9, #b6defd);
 }
 
+.world {
+	position: absolute;
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
+}
+
+.panel {
+	position: absolute;
+	top: 8vh;
+	left: 0;
+	width: 100%;
+	text-align: center;
+	pointer-events: none;
+	font-family: 'Roboto';
+	
+}
+
+.panel h1 {
+	font-size: 4.5em;
+	line-height: 1;
+	margin: 0;
+	letter-spacing: -0.025em;
+	color: #00008b 
+}
+
+
+.hud  {
+	width: 100%;
+	margin: 2em 0 0;
+	text-align: center;
+	white-space: nowrap;
+}
+
+.item {
+	position: relative;
+	display: inline-block;
+	padding: 0 1em;
+	vertical-align: top;
+}
+
+.label {
+	font-size: 9px;
+	position: relative;
+	margin: 0 0 0.5em 0;
+	text-align: center;
+	letter-spacing: 3px;
+	text-transform: uppercase;
+	color: #5050ff;
+}
+
+.value {
+	font-weight: bold;
+	color: #5050ff;
+}
+
+
 body {
 	overflow: hidden; /* Hide scrollbars */
 	margin: 0;
 }
 
-.panel {
-	width: 100%;
-	text-align: center;
-	width: 100%;
-}
 
-.hud  {
-	align-content: center;
-	display: inline; 
-}
 
-.label {
-	display: inline; 
-}
+
+
 
 .value {
 	display: inline; 
