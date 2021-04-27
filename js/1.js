@@ -69,13 +69,13 @@ function takeInput(event) {
   if (event.key == "s") 
     plane.mesh.position.y -= Controls.xSpeed;
   if (event.key == "f") {
-    let plasmaBall = new THREE.Mesh(new THREE.SphereGeometry(0.2, 0.2, 0.2), new THREE.MeshBasicMaterial({
+    let plasmaBall = new THREE.Mesh(new THREE.SphereGeometry(10, 10, 10), new THREE.MeshBasicMaterial({
       color: Colors.red
     }));
     plasmaBall.position.copy(plane.mesh.position); // start position - the tip of the weapon
     plasmaBall.quaternion.copy(camera.quaternion); // apply camera's quaternion
     scene.add(plasmaBall);
-							plasmaBalls.push(plasmaBall);
+    plasmaBalls.push(plasmaBall);
   }
 
 }
@@ -127,7 +127,7 @@ function gameloop() {
       prevEnemyDistance = distance;
     }
     plasmaBalls.forEach(b => {
-      b.translateX(50 * 1); // move along the local z-axis
+      b.translateX(5* 1); // move along the local z-axis
       // b.translateZ(-10);
     });
     

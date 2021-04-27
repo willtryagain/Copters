@@ -4,7 +4,7 @@ Enemy = function() {
         color: Colors.red,
         shading: THREE.FlatShading
     });
-    this.mesh = new THREE.Mesh(geometry, this.mesh);
+    this.mesh = new THREE.Mesh(geometry, material);
     this.angle = 0;
     this.ditance = 0;
 }
@@ -15,7 +15,7 @@ EnemyFleet = function() {
 }
 
 EnemyFleet.prototype.spawnEnemies = function() {
-    var count = 2;
+    var count = 5;
     for (let index = 0; index < count; index++) {
         if (enemies.length)
             var enemy = enemies.pop();
@@ -32,20 +32,22 @@ EnemyFleet.prototype.spawnEnemies = function() {
 EnemyFleet.prototype.motion = function() {
     for (let index = 0; index < this.activeList.length; index++) {
         var enemy = this.activeList[index];
-        enemy.angle += gameSpeed * deltaTime * Math.cos(Math.random());
-        if (enemy.angle > Math.PI/2) 
-            enemy.angle -= Math.PI/2;
+        enemy.angle += gameSpeed * deltaTime * 0.06*Math.cos(Math.random());
+        if (enemy.angle > Math.PI*2) 
+            enemy.angle -= Math.PI*2;
         enemy.mesh.rotation.z += Math.random() * .1;
         enemy.mesh.rotation.y += Math.random() * .1;
         var dvec = plane.mesh.position.clone().sub(enemy.mesh.position.clone());
         var distance = dvec.length();
+        
         if (distance < Controls.collisionDistance) {
             this.mesh.remove(enemy.mesh);
-            ambientLight.intensity = 2;
+            console.log("enemy d", distance);
+            // ambientLight.intensity = 2;
             decreaseLives();
             // test i--;
         } 
-        else if (enemy.angle > Math.PI)
-            this.mesh.remove(enemy.mesh);
+        // else if (enemy.angle > Math.PI)
+        //     this.mesh.remove(enemy.mesh);
     }
 }
