@@ -1,7 +1,6 @@
 # Copters
 
-A browser game built using threejs inspired by [this](https://tympanus.net/codrops/2016/04/26/the-aviator-animating-basic-3d-scene-threejs/). Control the helicopter to collect diamonds and avoid obstacles. Game ends on hitting 5 obstacles.
-
+A browser game built using threejs inspired by [this](https://tympanus.net/codrops/2016/04/26/the-aviator-animating-basic-3d-scene-threejs/). Control the helicopter to collect diamonds and avoid obstacles. Game ends on hitting 5 obstacles. Click [this](https://vibrant-ardinghelli-9ba876.netlify.app/) to play.
 
 ## Steps
 1. start a local web server
