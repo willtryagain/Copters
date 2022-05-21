@@ -19,7 +19,7 @@ var Controls = {
   collisionDistance: 10,
   score: 0,
   paused: false,
-  lives: 5,
+  lives: 1,
   bulletSize:2
 }
 

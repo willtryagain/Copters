@@ -236,8 +236,17 @@ function gameloop() {
     plane.mesh.rotation.x += 3 * deltaTime/1000;
     fallSpeed *= 1.05;
     plane.mesh.position.y -=  fallSpeed * deltaTime;
-      status_field =  document.getElementById("status");
-      status_field.innerHTML = "Game Over!"
+    status_field =  document.getElementById("status");
+    var highscore = localStorage.getItem("highscore");
+    if(highscore !== null){
+        if (Controls.score > highscore) {
+            localStorage.setItem("highscore", Controls.score);      
+        }
+    }
+    else{
+        localStorage.setItem("highscore", Controls.score);
+    }
+    status_field.innerHTML = "High Score " + highscore; 
   }
   
   if (!Controls.paused)
