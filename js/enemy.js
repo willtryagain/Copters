@@ -2,7 +2,7 @@ Enemy = function() {
     var geometry = new THREE.TetrahedronGeometry(8, 2);
     var material = new THREE.MeshPhongMaterial({
         color: 0x888c8d,
-        shading: THREE.FlatShading
+        shading: THREE.FlatShading 
     });
     this.mesh = new THREE.Mesh(geometry, material);
     this.angle = 0;
@@ -15,7 +15,7 @@ EnemyFleet = function() {
 }
 
 EnemyFleet.prototype.spawnEnemies = function() {
-    var count = 5;
+    var count = 2;
     // if (this.activeList.length >= count)
     //     return;
     for (let index = 0; index < count; index++) {
@@ -25,8 +25,11 @@ EnemyFleet.prototype.spawnEnemies = function() {
             var enemy = new Enemy();
         enemy.angle = -(index*0.1);
         var sign = Math.random() < 0.5 ? -1 : 1;
-        enemy.mesh.position.y =  HEIGHT/4 + sign * HEIGHT * Math.cos(Math.random())/8;
+            
         enemy.mesh.position.y = plane.mesh.position.y + sign * HEIGHT * Math.cos(Math.random())/16;
+        if (Math.random() < 0.01)
+            enemy.mesh.position.y = plane.mesh.position.y + sign * HEIGHT * Math.cos(Math.random())/64;
+
         sign = Math.random() < 0.5 ? -1 : 1;
         enemy.mesh.position.x = 20 +  Math.sin(Math.random())*WIDTH/4 ;
 
@@ -45,6 +48,7 @@ EnemyFleet.prototype.motion = function(speed=-getSpeed()) {
             enemy.angle -= Math.PI*2;
         
         var dvec = plane.mesh.position.clone().sub(enemy.mesh.position.clone());
+        console.log(speed);
         enemy.mesh.translateX(speed);
         var distance = dvec.length();
         

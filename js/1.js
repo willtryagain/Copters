@@ -11,7 +11,8 @@ function init() {
     createPlane();
     createStars();
     createEnemies();
-    
+    starField.motion(-Controls.xSpeed);
+    enemyFleet.motion(-Controls.xSpeed);
     document.addEventListener('keypress', takeInput, false);
     
     gameloop();
@@ -133,10 +134,12 @@ function takeInput(event) {
 
   }
     // plane.mesh.position.x -= Controls.xSpeed;
+ 
+  
   if (keys.includes("d")) {
     starField.motion(-Controls.xSpeed);
+  enemyFleet.motion(-Controls.xSpeed);
     curPlaneX += Controls.xSpeed;
-    enemyFleet.motion(-Controls.xSpeed);
   } 
    
   if (keys.includes("w")) 
@@ -223,7 +226,7 @@ function gameloop() {
       b.translateX(5* 1); // move along the local z-axis
       // b.translateZ(-10);
     });
-    
+    starField.motion(-Controls.xSpeed);
     increaseDistance();
     updatePlane();
     
@@ -233,11 +236,10 @@ function gameloop() {
     plane.mesh.rotation.x += 3 * deltaTime/1000;
     fallSpeed *= 1.05;
     plane.mesh.position.y -=  fallSpeed * deltaTime;
-    if (plane.mesh.position < 0)  {
       status_field =  document.getElementById("status");
       status_field.innerHTML = "Game Over!"
-    }
   }
+  
   if (!Controls.paused)
     enemyFleet.motion();
   starField.motion();

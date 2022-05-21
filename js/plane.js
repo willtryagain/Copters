@@ -62,6 +62,6 @@ function updatePlane() {
 
   planeX = curPlaneX;
   planeY = curPlaneY;
-  gameSpeed = planeSpeed * 10;
+  gameSpeed = Math.max(gameSpeed, planeSpeed * 10);
   console.log("speed", planeSpeed);
 } 
