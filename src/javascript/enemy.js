@@ -47,27 +47,17 @@ EnemyFleet.prototype.motion = function(speed=-getSpeed()) {
             enemy.angle -= Math.PI*2;
         
         var dvec = plane.mesh.position.clone().sub(enemy.mesh.position.clone());
-        console.log(speed);
         enemy.mesh.translateX(speed);
         var distance = dvec.length();
         
-        var obj = this.mesh.getObjectByProperty()
-
-
         if (distance < Controls.collisionDistance) {
             deleted.push(index);
-            // this.activeList[index].deleted = true;
             this.mesh.remove(enemy.mesh);
             if (index != prevIndex) {
                 decreaseLives();
                 prevIndex = index;
             }
-           
-
-            // ambientLight.intensity = 2;
-            
             break;
-            // test i--;
         } else {
             for (let index = 0; index < plasmaBalls.length; index++) {
                 const ball = plasmaBalls[index];
@@ -78,17 +68,10 @@ EnemyFleet.prototype.motion = function(speed=-getSpeed()) {
                     enemy.deleted = true;
                     deleted.push(index);
                     this.mesh.remove(enemy.mesh);
-                    // this.activeList[index].deleted = true;
-                    // ambientLight.intensity = 2;
-                    // decreaseLives();
-                    // test i--;
                     break;
                 } 
-                
             }
         }
-        // else if (enemy.angle > Math.PI)
-        //     this.mesh.remove(enemy.mesh);
     }
     for (let index = deleted.length-1; index >= 0; index--) {
         var enemy = this.activeList[deleted[index]];
