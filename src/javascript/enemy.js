@@ -6,7 +6,6 @@ Enemy = function() {
     });
     this.mesh = new THREE.Mesh(geometry, material);
     this.angle = 0;
-    this.ditance = 0;
 }
 
 EnemyFleet = function() {
