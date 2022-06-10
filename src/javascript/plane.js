@@ -15,7 +15,6 @@ var Plane = function() {
     engine.position.x = 40;
     engine.castShadow = true;
     engine.receiveShadow = true;
-    // this.mesh.add(engine);
   
     var geomTailPlane = new THREE.BoxGeometry(15,20,5,1,1,1);
     var matTailPlane = new THREE.MeshPhongMaterial({color:Colors.metal, shading:THREE.FlatShading});
@@ -23,7 +22,7 @@ var Plane = function() {
     tailPlane.position.set(-60,25,0);
     tailPlane.castShadow = true;
     tailPlane.receiveShadow = true;
-      this.mesh.add(tailPlane);;
+    this.mesh.add(tailPlane);
   
     var barGeometry = new THREE.BoxGeometry(130,8,8,1,1,1);
     var wingMat = new THREE.MeshPhongMaterial({color:Colors.metal, shading:THREE.FlatShading});
@@ -57,11 +56,7 @@ function updatePlane() {
   var deltaX  = Math.abs(curPlaneX - planeX);
   var deltaY  = Math.abs(curPlaneY - planeY);
   planeSpeed = Math.sqrt(deltaX*deltaX + deltaY*deltaY);
-  // plane.mesh.position.x = planeX;
-  // plane.mesh.position.y = planeY;
-
   planeX = curPlaneX;
   planeY = curPlaneY;
   gameSpeed = Math.max(gameSpeed, planeSpeed * 10);
-  console.log("speed", planeSpeed);
 } 

@@ -38,7 +38,7 @@ EnemyFleet.prototype.spawnEnemies = function() {
 }
 
 
-EnemyFleet.prototype.motion = function(speed=-getSpeed()) {
+EnemyFleet.prototype.motion = function(speed=-Math.log( Math.max(new Date().getTime() - initTime)/1000, 2)) {
     var deleted = [];
     for (let index = 0; index < this.activeList.length; index++) {
         var enemy = this.activeList[index];

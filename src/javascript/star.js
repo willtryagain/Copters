@@ -19,7 +19,6 @@ Field = function(n) {
   for(var i=0; i <n; i++){
     var s = new Star();
     this.stars.push(s);
-    // this.mesh.add(s.mesh);
   }
 }
 
@@ -51,23 +50,14 @@ Field.prototype.motion = function(speed=0) {
       star.angle += Controls.speed * deltaTime * Controls.starSpeed;
       if (2*star.angle > Math.PI) 
         star.angle -= Math.PI/2;
-      // star.mesh.position.y = - Math.cos(Math.random())*HEIGHT/2;
-      // star.mesh.position.x = Math.sin(Math.random())*WIDTH/2;
       star.mesh.translateX(speed);
-     
-      // star.mesh.rotation.z += Math.random() * .1;
-      // star.mesh.rotation.y += Math.random() * .1;
-      // console.log("star", star.mesh.position);
       var dvec = plane.mesh.position.clone().sub(star.mesh.position.clone());
       var distance = dvec.length();
       if (distance < Controls.collisionDistance) {
         deleted.push(index);
           this.mesh.remove(star.mesh);
           increaseScore();
-          // test i--;
       } 
-   
-
   }
   for (let index = deleted.length-1; index >= 0; index--) {
       this.starsActivated.splice(deleted[index], 1);
