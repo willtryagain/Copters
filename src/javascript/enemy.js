@@ -37,6 +37,14 @@ EnemyFleet.prototype.spawnEnemies = function() {
     }
 }
 
+function createEnemies() {
+	for (let index = 0; index < 2; index++) {
+		var enemy = new Enemy();
+		enemies.push(enemy);
+	}
+	enemyFleet = new EnemyFleet();
+	scene.add(enemyFleet.mesh);
+}
 
 EnemyFleet.prototype.motion = function(speed=-Math.log( Math.max(new Date().getTime() - initTime)/1000, 2)) {
     var deleted = [];

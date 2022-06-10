@@ -21,6 +21,9 @@ var fallSpeed = 0.001;
 var prevIndex = -1;
 var prevShotTime =  new Date().getTime();
 var keyMap = [];
+var plane;
+var starField;
+var scene, camera, fieldOfView, aspectRatio, nearPlane, farPlane, HEIGHT, WIDTH, renderer, container;
 var Controls = {
 	xSpeed: 3,
 	radius: 600,
@@ -30,6 +33,7 @@ var Controls = {
 	collisionDistance: 10,
 	score: 0,
 	paused: false,
+	over: false,
 	lives: 1,
 	bulletSize:2
 }
@@ -43,6 +47,13 @@ const Colors = {
 	gold:0xffd700,
 	cockpit:0x484848,
 	metal:0x181818
+};
+var KeyControl = {
+	"left": 65,
+	"right": 68,
+	"up": 87,
+	"down": 83,
+	"fire": 32
 };
 
 
@@ -69,56 +80,11 @@ window.addEventListener('keydown', (e)=>{
 	}
 })
 window.addEventListener('keyup', (e)=>{
-		if(keyMap.includes(e.keyCode)){
-				keyMap.splice(keyMap.indexOf(e.keyCode), 1);
-		}
+	if(keyMap.includes(e.keyCode)){
+			keyMap.splice(keyMap.indexOf(e.keyCode), 1);
+	}
 })
 
-function key(x){
-		return (keyMap.includes(x));
-}
-
-function checkGameKeys(){
-	keys = []
-		if(key(32)){
-				// Space Key
-				keys.push("space");
-		}
-		if(key(37)){
-				// Left Arrow Key
-		}
-		if(key(39)){
-				// Right Arrow Key
-		}
-		if(key(38)){
-				// Up Arrow Key
-		}
-		if(key(40)){
-				// Down Arrow Key
-		}
-		if(key(65)){
-				// A Key
-				keys.push("a");
-		}
-		if(key(68)){
-				// D Key
-				keys.push("d");
-		}
-		if(key(87)){
-				// W Key
-
-				keys.push("w");
-		}
-		if(key(83)){
-				// S Key
-				keys.push("s");
-		}
-		return keys;
-}
-
-
-
-var scene, camera, fieldOfView, aspectRatio, nearPlane, farPlane, HEIGHT, WIDTH, renderer, container;
 
 function createScene() {
 		HEIGHT = window.innerHeight;
@@ -138,63 +104,44 @@ function createScene() {
 		camera.position.y = 100;
 
 		renderer = new THREE.WebGLRenderer({
-				alpha: true,
-				antialias: true
+			alpha: true,
+			antialias: true
 		});
 		renderer.setPixelRatio(window.devicePixelRatio); 
 		renderer.setSize(WIDTH, HEIGHT);
 		renderer.shadowMap.enabled = true;
 
-	
-
-
-
-
-
 		container = document.getElementById('world');
 		container.appendChild(renderer.domElement);
 }
 
-var plane;
-function createPlane() {
-	plane = new Plane();
-	plane.mesh.scale.set(0.25, 0.25, 0.25);
-	plane.mesh.position.y = 100;
-	plane.mesh.position.set(0, HEIGHT/4, 0);
 
-	scene.add(plane.mesh);
-}
 
 function takeInput(event) {
 	if (Controls.paused)
 		return;
-	keys = checkGameKeys();
-	if (keys.includes("a")) {
+	if (keyMap.includes(KeyControl["left"])) {
 		starField.motion(Controls.xSpeed);
 		curPlaneX-= Controls.xSpeed;
 		enemyFleet.motion(Controls.xSpeed);
-
 	}
-		// plane.mesh.position.x -= Controls.xSpeed;
- 
-	
-	if (keys.includes("d")) {
+	if (keyMap.includes(KeyControl["right"])) {
 		starField.motion(-Controls.xSpeed);
-	enemyFleet.motion(-Controls.xSpeed);
+		enemyFleet.motion(-Controls.xSpeed);
 		curPlaneX += Controls.xSpeed;
 	} 
-	 
-	if (keys.includes("w")) 
+	if (keyMap.includes(KeyControl["up"])) 
 		plane.mesh.position.y += Controls.xSpeed;
-	if (keys.includes("s")) 
+	if (keyMap.includes(KeyControl["down"])) 
 		plane.mesh.position.y -= Controls.xSpeed;
-	if (keys.includes("space")) {
-		var curTime =  new Date().getTime();
-		if (curTime - prevShotTime < 500)
-			return;
-			prevShotTime=  curTime;
-			
-		let plasmaBall = new THREE.Mesh(new THREE.SphereGeometry(Controls.bulletSize, Controls.bulletSize, Controls.bulletSize), new THREE.MeshBasicMaterial({
+	if (keyMap.includes(KeyControl["fire"])) {
+		let curTime =  new Date().getTime();
+		// TODO: replace constant with variable 
+		if (curTime - prevShotTime < 500) return;
+		prevShotTime = curTime;
+		let plasmaBall = new THREE.Mesh(
+			new THREE.SphereGeometry(Controls.bulletSize, Controls.bulletSize, Controls.bulletSize), 
+			new THREE.MeshBasicMaterial({
 			color: 0xFFA500
 		}));
 		plasmaBall.position.copy(plane.mesh.position); // start position - the tip of the weapon
@@ -202,14 +149,9 @@ function takeInput(event) {
 		scene.add(plasmaBall);
 		plasmaBalls.push(plasmaBall);
 	}
-
 }
 
-var starField;
-function createStars() {
-	starField = new Field(2);
-	scene.add(starField.mesh);
-}
+
 
 function increaseScore(star=true) {
 	if (star)
@@ -224,51 +166,35 @@ function decreaseLives() {
 	health_field.innerHTML = Controls.lives;
 	if (Controls.lives == 0) {
 		Controls.paused = true;
-		status = "over";
-
+		Controls.over = true;
 	}
-
 }
+
 function increaseDistance() {
 	distance += gameSpeed * deltaTime/1000;
 }
-
-function createEnemies() {
-	for (let index = 0; index < 2; index++) {
-		var enemy = new Enemy();
-		enemies.push(enemy);
-	}
-	enemyFleet = new EnemyFleet();
-	scene.add(enemyFleet.mesh);
-}
-
 
 function gameloop() {
 	currentTime = new Date().getTime();
 	deltaTime = currentTime - previousTime;
 	previousTime = currentTime;
-
-	if (Controls.paused == false) {
+  	if (Controls.paused == false) {
 		if (Math.floor(distance) % 20 == 0 && distance != prevDistance)  {
-			// console.log("spawn");
 			starField.spawnStars();
 			prevDistance = distance;
 		}
 		if (Math.floor(distance) % 30 == 0 && distance != prevEnemyDistance)  {
-			// console.log("spawn e");
 			enemyFleet.spawnEnemies();
 			prevEnemyDistance = distance;
 		}
 		plasmaBalls.forEach(b => {
 			b.translateX(5* 1); // move along the local z-axis
-			// b.translateZ(-10);
 		});
 		starField.motion(-Controls.xSpeed);
 		increaseDistance();
 		updatePlane();
-		
 	}
-	else if (status == "over") {
+	else if (Controls.over) {
 		plane.mesh.rotation.z += (-Math.PI/2 - plane.mesh.rotation.z) * 2 * deltaTime / 1000;
 		plane.mesh.rotation.x += 3 * deltaTime/1000;
 		fallSpeed *= 1.05;
@@ -276,28 +202,19 @@ function gameloop() {
 		status_field =  document.getElementById("status");
 		var highscore = localStorage.getItem("highscore");
 		if(highscore !== null){
-				if (Controls.score > highscore) {
-						localStorage.setItem("highscore", Controls.score);      
-				}
+			if (Controls.score > highscore) 
+				localStorage.setItem("highscore", Controls.score);      
 		}
-		else{
-				localStorage.setItem("highscore", Controls.score);
-		}
+		else
+			localStorage.setItem("highscore", Controls.score);
+		
 		status_field.innerHTML = "High Score " + highscore; 
 	}
-	
 	if (!Controls.paused)
 		enemyFleet.motion();
 	starField.motion();
-	
-
 	plane.propeller.rotation.y += 0.3;
 	renderer.render(scene, camera);
-
-
-
-
-
-
+	//  requests that the browser calls a specified function to update an animation before the next repaint
 	requestAnimationFrame(gameloop);
 }

@@ -43,6 +43,12 @@ Field.prototype.spawnStars = function() {
     }
 }
 
+function createStars() {
+	starField = new Field(2);
+	scene.add(starField.mesh);
+}
+
+
 Field.prototype.motion = function(speed=0) {
   var deleted = [];
   for (let index = 0; index < this.starsActivated.length; index++) {
