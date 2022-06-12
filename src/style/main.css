@@ -1,4 +1,5 @@
 .viewport {
+	/* The element is removed from the normal document flow, and no space is created for the element in the page layout. It is positioned relative to its closest positioned ancestor */
 	position: absolute;
 	width: 100%;
 	height: 100%;
@@ -8,6 +9,7 @@
 }
 
 .world {
+	/* hide scrollbar */
 	position: absolute;
 	overflow: hidden;
 	width: 100%;
@@ -24,7 +26,7 @@
 	font-family: 'Roboto';
 	
 }
-
+/* my parent element's font-size */
 .panel h1 {
 	font-size: 4.5em;
 	line-height: 1;
@@ -32,7 +34,7 @@
 	letter-spacing: -0.025em;
 	color: #00008b 
 }
-
+/* Relative to 1% of the height of the viewport */
 
 .hud  {
 	width: 100%;

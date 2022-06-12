@@ -13,10 +13,9 @@ EnemyFleet = function() {
     this.activeList = [];
 }
 
+// , all functions have a property named prototype. 
 EnemyFleet.prototype.spawnEnemies = function() {
     var count = 2;
-    // if (this.activeList.length >= count)
-    //     return;
     for (let index = 0; index < count; index++) {
         if (enemies.length)
             var enemy = enemies.pop();
@@ -83,7 +82,6 @@ EnemyFleet.prototype.motion = function(speed=-Math.log( Math.max(new Date().getT
     }
     for (let index = deleted.length-1; index >= 0; index--) {
         var enemy = this.activeList[deleted[index]];
-        this.mesh.remove(enemy);
         this.activeList.splice(deleted[index], 1);
     }
    

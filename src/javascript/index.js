@@ -49,13 +49,12 @@ const Colors = {
 	metal:0x181818
 };
 var KeyControl = {
-	"left": 65,
-	"right": 68,
-	"up": 87,
-	"down": 83,
-	"fire": 32
+	"left": 'a',
+	"right": 'd',
+	"up": 'w',
+	"down": 's',
+	"fire": ' '
 };
-
 
 // window listener
 window.addEventListener(
@@ -74,55 +73,51 @@ window.addEventListener(
 	false
 );
 window.addEventListener('keydown', (e)=>{
-	// TODO: refactor and remove deprecated
-	if(!keyMap.includes(e.keyCode)){
-			keyMap.push(e.keyCode);
+	if(!keyMap.includes(e.key)){
+		keyMap.push(e.key);
 	}
 })
 window.addEventListener('keyup', (e)=>{
-	if(keyMap.includes(e.keyCode)){
-			keyMap.splice(keyMap.indexOf(e.keyCode), 1);
+	if(keyMap.includes(e.key)){
+		keyMap.splice(keyMap.indexOf(e.key), 1);
 	}
 })
 
-
 function createScene() {
-		HEIGHT = window.innerHeight;
-		WIDTH = window.innerWidth;
+	HEIGHT = window.innerHeight;
+	WIDTH = window.innerWidth;
 
-		scene = new THREE.Scene();
-		scene.fog = new THREE.Fog(0xf7d9aa, 100, 950);
+	scene = new THREE.Scene();
+	scene.fog = new THREE.Fog(0xf7d9aa, 100, 950);
 
-		aspectRatio = WIDTH / HEIGHT;
-		fieldOfView = 60;
-		nearPlane = 1;
-		farPlane = 10000;
-		camera = new THREE.PerspectiveCamera(fieldOfView, aspectRatio, nearPlane, farPlane);
+	aspectRatio = WIDTH / HEIGHT;
+	fieldOfView = 60;
+	nearPlane = 1;
+	farPlane = 10000;
+	camera = new THREE.PerspectiveCamera(fieldOfView, aspectRatio, nearPlane, farPlane);
 
-		camera.position.x = 0;
-		camera.position.z = 200;
-		camera.position.y = 100;
+	camera.position.x = 0;
+	camera.position.z = 200;
+	camera.position.y = 100;
 
-		renderer = new THREE.WebGLRenderer({
-			alpha: true,
-			antialias: true
-		});
-		renderer.setPixelRatio(window.devicePixelRatio); 
-		renderer.setSize(WIDTH, HEIGHT);
-		renderer.shadowMap.enabled = true;
+	renderer = new THREE.WebGLRenderer({
+		alpha: true,
+		antialias: true
+	});
+	renderer.setPixelRatio(window.devicePixelRatio); 
+	renderer.setSize(WIDTH, HEIGHT);
+	renderer.shadowMap.enabled = true;
 
-		container = document.getElementById('world');
-		container.appendChild(renderer.domElement);
+	container = document.getElementById('world');
+	container.appendChild(renderer.domElement);
 }
-
-
 
 function takeInput(event) {
 	if (Controls.paused)
 		return;
 	if (keyMap.includes(KeyControl["left"])) {
 		starField.motion(Controls.xSpeed);
-		curPlaneX-= Controls.xSpeed;
+		curPlaneX -= Controls.xSpeed;
 		enemyFleet.motion(Controls.xSpeed);
 	}
 	if (keyMap.includes(KeyControl["right"])) {
@@ -136,13 +131,12 @@ function takeInput(event) {
 		plane.mesh.position.y -= Controls.xSpeed;
 	if (keyMap.includes(KeyControl["fire"])) {
 		let curTime =  new Date().getTime();
-		// TODO: replace constant with variable 
-		if (curTime - prevShotTime < 500) return;
+		if (curTime - prevShotTime < 100) return;
 		prevShotTime = curTime;
 		let plasmaBall = new THREE.Mesh(
 			new THREE.SphereGeometry(Controls.bulletSize, Controls.bulletSize, Controls.bulletSize), 
 			new THREE.MeshBasicMaterial({
-			color: 0xFFA500
+			color: Colors.brown,
 		}));
 		plasmaBall.position.copy(plane.mesh.position); // start position - the tip of the weapon
 		plasmaBall.quaternion.copy(camera.quaternion); // apply camera's quaternion
@@ -150,8 +144,6 @@ function takeInput(event) {
 		plasmaBalls.push(plasmaBall);
 	}
 }
-
-
 
 function increaseScore(star=true) {
 	if (star)
@@ -162,6 +154,8 @@ function increaseScore(star=true) {
 }
 
 function decreaseLives() {
+	// ? Add tests
+	// TODO: assert life non negative
 	Controls.lives -= 1;
 	health_field.innerHTML = Controls.lives;
 	if (Controls.lives == 0) {
@@ -178,12 +172,13 @@ function gameloop() {
 	currentTime = new Date().getTime();
 	deltaTime = currentTime - previousTime;
 	previousTime = currentTime;
-  	if (Controls.paused == false) {
-		if (Math.floor(distance) % 20 == 0 && distance != prevDistance)  {
+	// * * control number of objs
+  	if (!Controls.paused) {
+		if (Math.floor(distance) % 100 == 0 && distance != prevDistance)  {
 			starField.spawnStars();
 			prevDistance = distance;
 		}
-		if (Math.floor(distance) % 30 == 0 && distance != prevEnemyDistance)  {
+		if (Math.floor(distance) % 200 == 0 && distance != prevEnemyDistance)  {
 			enemyFleet.spawnEnemies();
 			prevEnemyDistance = distance;
 		}

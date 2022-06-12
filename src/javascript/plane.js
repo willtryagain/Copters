@@ -17,7 +17,7 @@ var Plane = function() {
 	engine.receiveShadow = true;
   
 	var geomTailPlane = new THREE.BoxGeometry(15,20,5,1,1,1);
-	var matTailPlane = new THREE.MeshPhongMaterial({color:Colors.metal, shading:THREE.FlatShading});
+	var matTailPlane = new THREE.MeshPhongMaterial({color:Colors.metal, shading:THREE.FlatSObject3dhading});
 	var tailPlane = new THREE.Mesh(geomTailPlane, matTailPlane);
 	tailPlane.position.set(-60,25,0);
 	tailPlane.castShadow = true;
@@ -53,8 +53,7 @@ var Plane = function() {
 function createPlane() {
 	plane = new Plane();
 	plane.mesh.scale.set(0.25, 0.25, 0.25);
-	plane.mesh.position.y = 100;
-	plane.mesh.position.set(0, HEIGHT/4, 0);
+	plane.mesh.position.set(0, HEIGHT/10, 0);
 	scene.add(plane.mesh);
 }
   

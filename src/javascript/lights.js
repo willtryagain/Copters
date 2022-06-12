@@ -1,6 +1,5 @@
 var ambientLight, hemiLight, shadowLight;
 
-
 function createLights() {
     //TODO: replace colour value with var;
 
