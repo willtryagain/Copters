@@ -18,6 +18,7 @@
 
 .panel {
 	position: absolute;
+	/* vh: Relative to 1% of the height of the viewport */
 	top: 8vh;
 	left: 0;
 	width: 100%;
@@ -26,16 +27,16 @@
 	font-family: 'Roboto';
 	
 }
-/* my parent element's font-size */
 .panel h1 {
+	/* em:  my parent element's font-size */
 	font-size: 4.5em;
 	line-height: 1;
 	margin: 0;
 	letter-spacing: -0.025em;
 	color: #00008b 
 }
-/* Relative to 1% of the height of the viewport */
 
+/* 	?hud */
 .hud  {
 	width: 100%;
 	margin: 2em 0 0;
@@ -72,5 +73,6 @@ body {
 }
 
 .value {
+	/* inline element boxes that do not generate line breaks before or after themselves. In normal flow, the next element will be on the same line if there is space */
 	display: inline; 
 }

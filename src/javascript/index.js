@@ -18,7 +18,6 @@ var health_field;
 var score_field;
 var mode = "";
 var fallSpeed = 0.001;
-var prevIndex = -1;
 var prevShotTime =  new Date().getTime();
 var keyMap = [];
 var plane;
@@ -34,7 +33,7 @@ var Controls = {
 	score: 0,
 	paused: false,
 	over: false,
-	lives: 1,
+	lives: 2,
 	bulletSize:2
 }
 const Colors = {
@@ -61,6 +60,7 @@ window.addEventListener(
 	'load', 
 	function() {
 		health_field = document.getElementById("health_val");
+		health_field.innerHTML = Controls.lives;
 		score_field = document.getElementById("score_val");
 		document.addEventListener('keypress', takeInput, false);
 		createScene();
@@ -84,6 +84,7 @@ window.addEventListener('keyup', (e)=>{
 })
 
 function createScene() {
+	// adjusts the values depending on windows dimension, adjust
 	HEIGHT = window.innerHeight;
 	WIDTH = window.innerWidth;
 
