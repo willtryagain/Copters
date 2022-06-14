@@ -175,11 +175,11 @@ function gameloop() {
 	previousTime = currentTime;
 	// * * control number of objs
   	if (!Controls.paused) {
-		if (Math.floor(distance) % 100 == 0 && distance != prevDistance)  {
+		if (Math.floor(distance) % 50 == 0 && distance != prevDistance)  {
 			starField.spawnStars();
 			prevDistance = distance;
 		}
-		if (Math.floor(distance) % 200 == 0 && distance != prevEnemyDistance)  {
+		if (Math.floor(distance) % 100 == 0 && distance != prevEnemyDistance)  {
 			enemyFleet.spawnEnemies();
 			prevEnemyDistance = distance;
 		}

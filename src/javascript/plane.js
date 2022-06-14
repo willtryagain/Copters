@@ -56,7 +56,6 @@ function createPlane() {
 	plane.mesh.position.set(0, HEIGHT/10, 0);
 	scene.add(plane.mesh);
 }
-  
 
 function updatePlane() {
 	var deltaX  = Math.abs(curPlaneX - planeX);

@@ -15,13 +15,13 @@ EnemyFleet = function() {
 
 // , all functions have a property named prototype. 
 EnemyFleet.prototype.spawnEnemies = function() {
-    var count = 2;
+    let count = 2;
     for (let index = 0; index < count; index++) {
         // if (enemies.length)
         //     var enemy = enemies.pop();
         // else
-            var enemy = new Enemy();
-        var sign = Math.random() < 0.5 ? -1 : 1;
+            let enemy = new Enemy();
+        let sign = Math.random() < 0.5 ? -1 : 1;
             
         enemy.mesh.position.y = plane.mesh.position.y + sign * HEIGHT * Math.cos(Math.random())/16;
         if (Math.random() < 0.1)
@@ -76,3 +76,4 @@ EnemyFleet.prototype.motion = function(speed=-Math.log( Math.max(new Date().getT
         this.activeList.splice(deleted[index], 1);
     }
 }
+// threejs alav
