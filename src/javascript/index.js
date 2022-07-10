@@ -113,9 +113,13 @@ function createScene() {
 	container.appendChild(renderer.domElement);
 }
 
+
+
+
 function takeInput(event) {
 	if (Controls.paused)
 		return;
+	console.log(keyMap)
 	if (keyMap.includes(KeyControl["left"])) {
 		starField.motion(Controls.xSpeed);
 		curPlaneX -= Controls.xSpeed;

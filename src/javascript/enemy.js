@@ -46,7 +46,6 @@ function createEnemies() {
 
 EnemyFleet.prototype.motion = function(speed=-Math.log( Math.max(new Date().getTime() - initTime)/1000, 2)) {
     var deleted = [];
-    console.log("enemt fleet", this.mesh)
     for (let index = 0; index < this.activeList.length; index++) {
         var enemy = this.activeList[index];
         var dvec = plane.mesh.position.clone().sub(enemy.mesh.position.clone());
